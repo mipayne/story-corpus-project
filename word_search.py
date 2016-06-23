@@ -22,7 +22,7 @@ import pyexcel
 sheet_list = []
 
 from pyexcel.cookbook import split_a_book
-split_a_book('/Users/Madelyn/Desktop/UROP/py_codes/WordCategories.xlsx', 'output.xlsx')
+split_a_book('./resources/WordCategories.xlsx', 'output.xlsx')
 import glob
 outputfiles = glob.glob('*_output.xlsx')#splits book to be single sheets
 for file in sorted(outputfiles):
