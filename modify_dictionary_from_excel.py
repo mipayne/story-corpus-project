@@ -18,7 +18,7 @@ import pyexcel
 sheet_list = []
 
 from pyexcel.cookbook import split_a_book
-split_a_book('/Users/Madelyn/Desktop/UROP/py_codes/WordCategories.xlsx', 'output.xlsx')
+split_a_book('./resources/WordCategories.xlsx', 'output.xlsx')
 import glob
 outputfiles = glob.glob('*_output.xlsx')#splits book to be single sheets
 for file in sorted(outputfiles):
@@ -27,26 +27,19 @@ for file in sorted(outputfiles):
     
 print sheet_list
 print sheet_list[0]
-if sheet_list[0] == 'All_output.xlsx':#makes sure it's the right sheet (not necessary)
-    #gets excel sheet and makes into a dictionary (keys= row_1)
-    sheet1 = pyexcel.get_sheet(file_name = sheet_list[0], name_columns_by_row=0)
-    sheet1_od = sheet1.to_dict() 
-    sheet1_dict = dict(sheet1_od)
-if sheet_list[1] == 'Easy_output.xlsx':
-    sheet2 = pyexcel.get_sheet(file_name = sheet_list[1], name_columns_by_row=0)
-    sheet2_dict = dict(sheet2.to_dict())
-else:
-    print "You don't have the appropriate sheet names"
-    
-#print sheet1_dict
-#print sheet2_dict
-
-
-#sheet1_od = sheet.to_dict()
-#sheet1_dict = dict(sheet1_od)
-#print sheet1_dict
-#sheet2_od = dict(sheet.to_dict())
-#book[sheet_index][row, column]
+for i in sheet_list:
+    if i == 'All_output.xlsx':
+        allsheet = pyexcel.get_sheet(file_name = sheet_list[0], name_columns_by_row=0)
+        allsheet_od = allsheet.to_dict() 
+        allsheet_dict = dict(allsheet_od)
+    elif i == 'Easy_output.xlsx':
+        ezsheet = pyexcel.get_sheet(file_name = sheet_list[1], name_columns_by_row=0)
+        ezsheet_dict = dict(ezsheet.to_dict())
+    else:
+        print "You don't have the appropriate sheet names"
+ 
+#print allsheet_dict
+#print ezsheet_dict
 
 
 word_count_dict_All = {}
@@ -107,31 +100,37 @@ def lower_dict(my_dict):
     for key in my_dict:
         y = []
         for x in my_dict[key]:
+            #excel automatically makes 'True' and 'False' bools; can't lower bools
+            # --> if statement makes them unicode strings again
+            if type(x) == bool:
+                x = unicode(x)
             x = x.lower()
             y.append(x)
         my_dict[key] = y
     return my_dict
 
-sheet1_dict = extra_clean_dict(sheet1_dict)
-sheet1_word_count = make_word_count_dict(sheet1_dict, word_count_dict_All)
-print sheet1_word_count
-print "\n"
-sheet1_dict = clean_dict(sheet1_dict)
-#print sheet1_dict
+allsheet_dict = extra_clean_dict(allsheet_dict)
+allsheet_word_count = make_word_count_dict(allsheet_dict, word_count_dict_All)
+allsheet_dict = clean_dict(allsheet_dict)         
+allsheet_dict = lower_dict(allsheet_dict)
+#print allsheet_word_count
+#print "\n"
+#print allsheet_dict
+#print "\n"
 
-print "\n"
 
-sheet2_dict = extra_clean_dict(sheet2_dict)
-sheet2_dict = clean_dict(sheet2_dict)
-print sheet2_dict
-sheet2_dict = lower_dict(sheet2_dict)
-print sheet2_dict
+
+ezsheet_dict = extra_clean_dict(ezsheet_dict)
+ezsheet_dict = clean_dict(ezsheet_dict)
+ezsheet_dict = lower_dict(ezsheet_dict)
+#print ezsheet_dict
 
 ##dictionary cleans working correctly check
 #count = 0
-#for word in sheet1_word_count:
-#    for key in sheet1_dict:
+#for word in allsheet_word_count:
+#    for key in allsheet_dict:
 #        if word == key:
 #            count += 1
 #            
-#print count #gave 12! ( which is what we want because we took out 'Total Words' key)
+#print count #gave 12(out of 13 categories)! \
+#(which is what we want because we took out 'Total Words' key)
