@@ -25,8 +25,8 @@ for file in sorted(outputfiles):
     sheet_list.append(file)#adds each new sheet to a list
 ##print("--- %s seconds ---" % (time.time() - start_time))
     
-print sheet_list
-print sheet_list[0]
+#print sheet_list
+#print sheet_list[0]
 for i in sheet_list:
     if i == 'All_output.xlsx':
         allsheet = pyexcel.get_sheet(file_name = sheet_list[0], name_columns_by_row=0)
@@ -113,6 +113,16 @@ allsheet_dict = extra_clean_dict(allsheet_dict)
 allsheet_word_count = make_word_count_dict(allsheet_dict, word_count_dict_All)
 allsheet_dict = clean_dict(allsheet_dict)         
 allsheet_dict = lower_dict(allsheet_dict)
+
+'''
+#checking for words in dictionary
+count = 0
+for key in allsheet_dict:
+    if 'a lot' not in allsheet_dict[key]:
+        count +=1
+        print count
+'''
+
 #print allsheet_word_count
 #print "\n"
 #print allsheet_dict
