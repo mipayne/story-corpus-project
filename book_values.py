@@ -6,10 +6,16 @@ Created on Thu Jun  9 16:25:07 2016
 """
 #more updated
 #does nothing with rejected words; need to figure out how to handle rejected words
-ezsheet_dict = {'Nouns':[u'clouds', u'face', u'animal'], 'Animals':[u'goat', u'animal']}
-allsheet_dict = {'Nouns':[u'clouds', u'face', u'animal', u'rainbow'], 'Animals':[u'goat', u'animal', u'octopus'], 'Negatives':["don't"]}
+#allsheet_dict = {'Nouns':[u'clouds', u'face', u'animal', u'rainbow'], 'Animals':[u'goat', u'animal', u'octopus'], 'Negatives':["don't"]}
 
-final_words = [u'face', u'animal', "don't"]
+#final_words = [u'face', u'animal', "don't"]
+
+import modify_dictionary_from_excel
+print ezsheet_dict
+import importing_txt_files 
+print final_words
+
+
 rejected_words = [] 
 check_hard_list = []
 
@@ -44,11 +50,21 @@ print tot_word_value
 avg_book_difficulty = float(tot_word_value)/word_count
 print avg_book_difficulty
 
-
+'''
+for word in final_words:
+    if word not in rejected_words:
+        print word
+'''
+'''
+NEXT STEP:
+consider average difficulty of each group ('Nouns', 'Adjectives')
+scoring books on N/V/Q/S
+'''
 
 '''
 for situation where whether the word is a noun/verb/etc. doesn't matter
 all that matters is its difficulty
+'''
 '''
 #book1_words = book1_words.txt
 book1_words = ["happy", "superior", "sit"]
@@ -73,4 +89,4 @@ for word in book1_words:
     
 avg_book_difficulty = tot_word_value/word_count
 print avg_book_difficulty
-        
+'''        
