@@ -4,6 +4,47 @@ Created on Thu Jun  9 16:25:07 2016
 
 @author: Madelyn
 """
+#more updated
+#does nothing with rejected words; need to figure out how to handle rejected words
+ezsheet_dict = {'Nouns':[u'clouds', u'face', u'animal'], 'Animals':[u'goat', u'animal']}
+allsheet_dict = {'Nouns':[u'clouds', u'face', u'animal', u'rainbow'], 'Animals':[u'goat', u'animal', u'octopus'], 'Negatives':["don't"]}
+
+final_words = [u'face', u'animal', "don't"]
+rejected_words = [] 
+check_hard_list = []
+
+tot_word_value = 0
+word_count = len(final_words)
+
+
+def calculate_book_values(input_list, dictionary, word_point, output_list, tot_word_value):
+    for word in input_list:
+        word_in_key_list = []
+        not_in_key_count = 0
+        for key in dictionary:
+            #stops code from searching all keys if word is already found\
+            #   prevents double counting if word is in multiple keys
+            if len(word_in_key_list) > 0:
+                continue
+            if word in dictionary[key]:
+                word_in_key_list.append(key)
+                tot_word_value += word_point
+            else:
+                not_in_key_count += 1
+        if not_in_key_count == len(dictionary):
+            output_list.append(word)
+    return (tot_word_value, output_list)
+    
+tot_word_value, check_hard_list = calculate_book_values(final_words, ezsheet_dict, 1, check_hard_list, tot_word_value)
+
+tot_word_value, rejected_words = calculate_book_values(check_hard_list, allsheet_dict, 2, rejected_words, tot_word_value)
+
+print rejected_words
+print tot_word_value
+avg_book_difficulty = float(tot_word_value)/word_count
+print avg_book_difficulty
+
+
 
 '''
 for situation where whether the word is a noun/verb/etc. doesn't matter
@@ -33,27 +74,3 @@ for word in book1_words:
 avg_book_difficulty = tot_word_value/word_count
 print avg_book_difficulty
         
-  
-
-'''     
-#for getting words from google spreadsheet
-import gspread
-
-gc = gspread.authorize(credentials)
-
-#open a worksheet from spreadsheet with one shot
-wks = gc.open(WordCategories.xlsx).All
-
-list_of_lists = wks.get_all_values()
-noun_values_list = list_of_lists[0]
-
-
-wks2 = gc.open(WordCategories.xlsx).Easy
-easy_list_of_lists = wks2.get_all_values()
-easy_noun_values_list = easy_list_of_lists[0]
-
-matching_words = []
-for word in noun_values_list:
-    if word in verb_values_list:
-        matching_words.append(word)
-'''
