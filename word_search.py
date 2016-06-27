@@ -40,7 +40,7 @@ for tuple_pair in word_postag_list:
     #makes words lowercase
     word = word.lower()
     temp_list.append((word, pos_tag))
-    word_postag_list = temp_list
+    word_postag_list = temp_list[:]
     #iterates through each key in pos_mapping_dict
     for mapping_key in pos_mapping_dict:
         value = pos_mapping_dict[mapping_key] #value is a value in the pos_mapping_dict
