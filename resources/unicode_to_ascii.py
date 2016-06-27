@@ -19,7 +19,7 @@ for root, subdirs, files in os.walk(dir):
             print('\t- file %s (full path: %s)' % (file, file_path))
 
             new_file = file_path.replace (" ", "_")
-            new_file = re.sub(r"[?|!|,|']", "", new_file)
+            new_file = re.sub(r"[?|!|,|'|:]", "", new_file)
 
             with codecs.open(file_path, 'r', 'utf-8') as infile, codecs.open("./converted/"+new_file, 'w+', 'ascii') as outfile:
 
