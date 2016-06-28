@@ -29,24 +29,84 @@ for filename in glob.glob('/resources/StoryCorpus/*.txt'):
     f = open(filename)
     raw = f.read()
 '''   
+
 import glob
 
-list_of_files = glob.glob('./resources/StoryCorpus/*.txt')
-
-story_error = []
-for fileName in list_of_files:
-    f = open( fileName)
-    raw = f.read()
+def import_txt():
+    list_of_files = glob.glob('./resources/converted/StoryCorpus/*.txt')
     
-#f = open('./resources/StoryCorpus/.txt')
-#raw = f.read()
-    
-    word_sent_token = []
-    pos_tag_sent_list = []
-    lem_ready_word_list = []
     final_words = []
+    book_words = []
+    story_error = []
+    for fileName in list_of_files:
+        f = open( fileName)
+        raw = f.read()
+        
+    #f = open('./resources/converted/StoryCorpus/.txt')
+    #raw = f.read()
+        #final_words = []
+        word_sent_token = []
+        pos_tag_sent_list = []
+        lem_ready_word_list = []
+    
+    
+        #tokenize
+        sent_tokenize_list = sent_tokenize(raw)#breaks raw text into list of its sentences
+        #breaks each sentence into a  list of its parts
+        for sent in sent_tokenize_list:
+            word_sent_token.append(word_tokenize(sent))# DOWNSIDE: breaks up contractions\
+            #(couldn't get to work but tweet_tokenizer could potentially avoid this)
+        #creates list of tuples for each part of each sentence (word, pos_tag) 
+        for sent in word_sent_token:
+            pos_tag_sent_list.append(nltk.pos_tag(sent))
+        #pos_tag
+        for sent in pos_tag_sent_list:
+            for tuple_pair in sent:
+                word = tuple_pair[0]
+                pos_tag = tuple_pair[1]
+                #gives correct pos_tag
+                pos_tag = get_wordnet_pos(pos_tag)
+                #makes words lowercase
+                word = word.lower()
+                lem_ready_word_list.append((word, pos_tag))
+        
+        #lemmatize
+        for tuple_pair in lem_ready_word_list:
+            word = tuple_pair[0]
+            pos_tag = tuple_pair[1]
+            #makes sure words with no equivalent wordnet pos_tag still get lemmatized
+            if pos_tag == '':
+                lem_word = wordnet_lemmatizer.lemmatize(word)
+                final_words.append(lem_word)
+                #final_words_no_pos.append((lem_word, pos_tag)) #for situation if want to individually check categories
+                    #insert code to assign tags according to WordCategories.xlsx (ex: negatives, pronoun)
+            #general lemmatization
+            else:
+                lem_word = wordnet_lemmatizer.lemmatize(word, pos=pos_tag)
+                final_words.append(lem_word)
+                #final_words_new.append((lem_word, pos_tag)) ##for situation if want to individually check categories
+        #book_words.append(final_words)
+        
+    print book_words
+    removed_words = []
+    
+    for word in final_words:
+        if word.isalnum() == False: #and len(word) <= 2:#includes "'s", punctuation, 
+            removed_words.append(word)
+            final_words.remove(word)
+    
+    print final_words
+    print removed_words
+    #print len(sent_tokenize_list)
+    #print sent_tokenize_list
+    #print pos_tag_sent_list
+    #print lem_ready_word_list
+    #print final_words
+    
+    return (final_words)
+     
 
-    try: 
+'''try: 
         #tokenize
         sent_tokenize_list = sent_tokenize(raw)#breaks raw text into list of its sentences
         #breaks each sentence into a  list of its parts
@@ -83,15 +143,7 @@ for fileName in list_of_files:
         
 #print final_words
 print story_error
-
-#print len(sent_tokenize_list)
-#print sent_tokenize_list
-#print pos_tag_sent_list
-#print lem_ready_word_list
-#print final_words
- 
-
-
+'''
 
 '''
 text = "this's a sent tokenize test. this is sent two. is this sent three? \
