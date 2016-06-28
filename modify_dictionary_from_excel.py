@@ -93,9 +93,12 @@ def extra_clean_dict(my_dict):
             del my_dict[key]
     return my_dict
     
+
+from unidecode import unidecode
+
 def lower_dict(my_dict):
     '''
-    str in the lists for each key are made lowercase
+    str in the lists for each key are made lowercase and ascii
     '''
     for key in my_dict:
         y = []
@@ -105,15 +108,18 @@ def lower_dict(my_dict):
             if type(x) == bool:
                 x = unicode(x)
             x = x.lower()
+            x = unidecode(x)
             y.append(x)
         my_dict[key] = y
     return my_dict
+
 
 allsheet_dict = extra_clean_dict(allsheet_dict)
 allsheet_word_count = make_word_count_dict(allsheet_dict, word_count_dict_All)
 allsheet_dict = clean_dict(allsheet_dict)         
 allsheet_dict = lower_dict(allsheet_dict)
-
+print 'allsheet dict: '
+print allsheet_dict
 '''
 #checking for words in dictionary
 count = 0
@@ -133,7 +139,15 @@ for key in allsheet_dict:
 ezsheet_dict = extra_clean_dict(ezsheet_dict)
 ezsheet_dict = clean_dict(ezsheet_dict)
 ezsheet_dict = lower_dict(ezsheet_dict)
-#print ezsheet_dict
+print '\n\n\nezsheet dict: '
+print ezsheet_dict
+
+
+
+#for value in allsheet_dict['Pronoun']:
+#    print unidecode(value)
+
+
 
 ##dictionary cleans working correctly check
 #count = 0
