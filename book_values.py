@@ -13,42 +13,57 @@ Created on Thu Jun  9 16:25:07 2016
 import modify_dictionary_from_excel
 print ezsheet_dict
 import importing_txt_files 
-print final_words
 
+
+def calculate_book_values(input_list, dictionary, word_point, tot_word_value, word_key_pair_dict):
+    remain_list = []
+    for word in input_list:
+        key_list = []
+        point_awarded = 0
+        for key in dictionary:
+            #stops code from searching all keys if word is already found\
+            #   prevents double counting if word is in multiple keys
+            if word in dictionary[key]:
+                if not point_awarded:
+                    tot_word_value += word_point
+                    point_awarded = 1
+                key_list.append(key)
+        
+        if not key_list:
+            remain_list.append(word)
+        else:
+            word_key_pair_dict[word] = key_list
+#            print 'word: ' + word + '  keys: '
+#            print word_key_pair_dict[word]
+            
+    return (tot_word_value, remain_list, word_key_pair_dict)
+ 
+
+final_words = importing_txt_files.import_txt()
+#print final_words
+final_words = set(final_words)
 
 rejected_words = [] 
 check_hard_list = []
 
 tot_word_value = 0
 word_count = len(final_words)
+   
+word_key_pair_dict = {}    
+
+tot_word_value, check_hard_list, word_key_pair_dict = \
+    calculate_book_values(final_words, ezsheet_dict, 1, tot_word_value, word_key_pair_dict)
+
+tot_word_value, rejected_words, word_key_pair_dict = \
+    calculate_book_values(check_hard_list, allsheet_dict, 2, tot_word_value, word_key_pair_dict)
+
+#print word_key_pair_dict
 
 
-def calculate_book_values(input_list, dictionary, word_point, output_list, tot_word_value):
-    for word in input_list:
-        word_in_key_list = []
-        not_in_key_count = 0
-        for key in dictionary:
-            #stops code from searching all keys if word is already found\
-            #   prevents double counting if word is in multiple keys
-            if len(word_in_key_list) > 0:
-                continue
-            if word in dictionary[key]:
-                word_in_key_list.append(key)
-                tot_word_value += word_point
-            else:
-                not_in_key_count += 1
-        if not_in_key_count == len(dictionary):
-            output_list.append(word)
-    return (tot_word_value, output_list)
-    
-tot_word_value, check_hard_list = calculate_book_values(final_words, ezsheet_dict, 1, check_hard_list, tot_word_value)
-
-tot_word_value, rejected_words = calculate_book_values(check_hard_list, allsheet_dict, 2, rejected_words, tot_word_value)
-
-print rejected_words
-print tot_word_value
+#print rejected_words
+#print tot_word_value
 avg_book_difficulty = float(tot_word_value)/word_count
-print avg_book_difficulty
+#print avg_book_difficulty
 
 '''
 for word in final_words:
