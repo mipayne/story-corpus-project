@@ -11,9 +11,11 @@ Created on Thu Jun  9 16:25:07 2016
 #final_words = [u'face', u'animal', "don't"]
 
 import modify_dictionary_from_excel
-print ezsheet_dict
 import importing_txt_files 
-
+import fixing_strings
+import modify_dictionary_from_excel
+custom_stopwords = modify_dictionary_from_excel.create_custom_stopword_list(allsheet_dict)
+import stopwords_modify
 
 def calculate_book_values(input_list, dictionary, word_point, tot_word_value, word_key_pair_dict):
     remain_list = []
@@ -37,33 +39,44 @@ def calculate_book_values(input_list, dictionary, word_point, tot_word_value, wo
 #            print word_key_pair_dict[word]
             
     return (tot_word_value, remain_list, word_key_pair_dict)
- 
 
-final_words = importing_txt_files.import_txt()
-#print final_words
-final_words = set(final_words)
+stopwords_removed = []
 
-rejected_words = [] 
-check_hard_list = []
+book_words = importing_txt_files.import_txt()
+print book_words
+for book in book_words:
+    book_words[book]= set(book_words[book])
+    final_words = book_words[book]
+    final_words_modify1 = fixing_strings.modify_words1(final_words)
+    print final_words_modify1
+    #insert modifiers here
+    final_words_modify2, stopwords_removed = \
+        stopwords_modify.modify_words2(final_words_modify1, custom_stopwords, stopwords_removed)
+    print final_words_modify2
+    print stopwords_removed
+    break
 
-tot_word_value = 0
-word_count = len(final_words)
+    rejected_words = [] 
+    check_hard_list = []
+    
+    tot_word_value = 0
+    word_count = len(final_words)
    
-word_key_pair_dict = {}    
-
-tot_word_value, check_hard_list, word_key_pair_dict = \
-    calculate_book_values(final_words, ezsheet_dict, 1, tot_word_value, word_key_pair_dict)
-
-tot_word_value, rejected_words, word_key_pair_dict = \
-    calculate_book_values(check_hard_list, allsheet_dict, 2, tot_word_value, word_key_pair_dict)
-
-#print word_key_pair_dict
-
-
-#print rejected_words
-#print tot_word_value
-avg_book_difficulty = float(tot_word_value)/word_count
-#print avg_book_difficulty
+    word_key_pair_dict = {}    
+    
+    tot_word_value, check_hard_list, word_key_pair_dict = \
+        calculate_book_values(final_words, ezsheet_dict, 1, tot_word_value, word_key_pair_dict)
+    
+    tot_word_value, rejected_words, word_key_pair_dict = \
+        calculate_book_values(check_hard_list, allsheet_dict, 2, tot_word_value, word_key_pair_dict)
+    
+    #print word_key_pair_dict
+    
+    
+    #print rejected_words
+    #print tot_word_value
+    avg_book_difficulty = float(tot_word_value)/word_count
+    #print avg_book_difficulty
 
 '''
 for word in final_words:

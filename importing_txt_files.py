@@ -36,15 +36,15 @@ def import_txt():
     list_of_files = glob.glob('./resources/converted/StoryCorpus/*.txt')
     
     final_words = []
-    book_words = []
-    story_error = []
+    book_words = {}
+    
     for fileName in list_of_files:
         f = open( fileName)
         raw = f.read()
         
     #f = open('./resources/converted/StoryCorpus/.txt')
     #raw = f.read()
-        #final_words = []
+        final_words = []
         word_sent_token = []
         pos_tag_sent_list = []
         lem_ready_word_list = []
@@ -86,25 +86,19 @@ def import_txt():
                 final_words.append(lem_word)
                 #final_words_new.append((lem_word, pos_tag)) ##for situation if want to individually check categories
         #book_words.append(final_words)
+        book_words[fileName] = final_words
         
-    print book_words
-    removed_words = []
-    
-    for word in final_words:
-        if word.isalnum() == False: #and len(word) <= 2:#includes "'s", punctuation, 
-            removed_words.append(word)
-            final_words.remove(word)
-    
-    print final_words
-    print removed_words
+    #print book_words
+
     #print len(sent_tokenize_list)
     #print sent_tokenize_list
     #print pos_tag_sent_list
     #print lem_ready_word_list
     #print final_words
     
-    return (final_words)
+    return (book_words)
      
+
 
 '''try: 
         #tokenize
