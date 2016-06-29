@@ -13,9 +13,22 @@ Created on Thu Jun  9 16:25:07 2016
 import modify_dictionary_from_excel
 import importing_txt_files 
 import fixing_strings
-import modify_dictionary_from_excel
-custom_stopwords = modify_dictionary_from_excel.create_custom_stopword_list(allsheet_dict)
 import stopwords_modify
+'''
+import pyexcel
+sheet_list = []
+
+from pyexcel.cookbook import split_a_book
+split_a_book('./resources/WordCategories.xlsx', 'output.xlsx')
+import glob
+outputfiles = glob.glob('*_output.xlsx')#splits book to be single sheets
+for file in sorted(outputfiles):
+    sheet_list.append(file)#adds each new sheet to a list
+'''    
+allsheet_dict, ezsheet_dict = modify_dictionary_from_excel.create_dictionary(sheet_list)
+allsheet_dict = modify_dictionary_from_excel.modify_dictionary(allsheet_dict)
+ezsheet_dict = modify_dictionary_from_excel.modify_dictionary(ezsheet_dict)
+custom_stopwords = modify_dictionary_from_excel.create_custom_stopword_list(allsheet_dict)
 
 def calculate_book_values(input_list, dictionary, word_point, tot_word_value, word_key_pair_dict):
     remain_list = []
@@ -44,8 +57,23 @@ stopwords_removed = []
 
 book_words = importing_txt_files.import_txt()
 print book_words
+
+final_words = book_words['./resources/converted/StoryCorpus/Troll_Tricks.txt']
+final_words_modify1 = fixing_strings.modify_words1(final_words)
+print final_words_modify1
+#insert modifiers here
+final_words_modify2, stopwords_removed = \
+    stopwords_modify.modify_words2(final_words_modify1, custom_stopwords, stopwords_removed)
+print final_words_modify2
+print stopwords_removed
+'''
+for some reason modify1 isn't working correctly 'that' and "'s" are still separate words
+'''
+
 for book in book_words:
-    book_words[book]= set(book_words[book])
+    break
+    #book_words[book]= set(book_words[book]) #set can't be used when copying dictionary\
+    #    in fixing_strings, need to work around this
     final_words = book_words[book]
     final_words_modify1 = fixing_strings.modify_words1(final_words)
     print final_words_modify1
@@ -54,7 +82,6 @@ for book in book_words:
         stopwords_modify.modify_words2(final_words_modify1, custom_stopwords, stopwords_removed)
     print final_words_modify2
     print stopwords_removed
-    break
 
     rejected_words = [] 
     check_hard_list = []

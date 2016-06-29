@@ -27,20 +27,22 @@ for file in sorted(outputfiles):
     
 #print sheet_list
 #print sheet_list[0]
-for i in sheet_list:
-    if i == 'All_output.xlsx':
-        allsheet = pyexcel.get_sheet(file_name = sheet_list[0], name_columns_by_row=0)
-        allsheet_od = allsheet.to_dict() 
-        allsheet_dict = dict(allsheet_od)
-    elif i == 'Easy_output.xlsx':
-        ezsheet = pyexcel.get_sheet(file_name = sheet_list[1], name_columns_by_row=0)
-        ezsheet_dict = dict(ezsheet.to_dict())
-    else:
-        print "You don't have the appropriate sheet names"
+def create_dictionary(sheet_list):
+    '''
+    creates allsheet_dict and ezsheet_dict
+    '''
+    for i in sheet_list:
+        if i == 'All_output.xlsx':
+            allsheet = pyexcel.get_sheet(file_name = sheet_list[0], name_columns_by_row=0)
+            allsheet_od = allsheet.to_dict() 
+            allsheet_dict = dict(allsheet_od)
+        elif i == 'Easy_output.xlsx':
+            ezsheet = pyexcel.get_sheet(file_name = sheet_list[1], name_columns_by_row=0)
+            ezsheet_dict = dict(ezsheet.to_dict())
+        else:
+            print "You don't have the appropriate sheet names"
+    return (allsheet_dict, ezsheet_dict)
  
-#print allsheet_dict
-#print ezsheet_dict
-
 
 word_count_dict_All = {}
 word_count_dict_Easy = {}
@@ -113,13 +115,41 @@ def lower_dict(my_dict):
         my_dict[key] = y
     return my_dict
 
+def modify_dictionary(dictionary):
+    '''
+    calls all the dictionary modifiers at once
+    '''
+    dictionary = extra_clean_dict(dictionary)
+    dictionary = clean_dict(dictionary)         
+    dictionary = lower_dict(dictionary)
+    return dictionary
 
-allsheet_dict = extra_clean_dict(allsheet_dict)
-allsheet_word_count = make_word_count_dict(allsheet_dict, word_count_dict_All)
-allsheet_dict = clean_dict(allsheet_dict)         
-allsheet_dict = lower_dict(allsheet_dict)
+
+allsheet_dict, ezsheet_dict = create_dictionary(sheet_list)
+allsheet_dict = modify_dictionary(allsheet_dict)
+ezsheet_dict = modify_dictionary(ezsheet_dict)
+#allsheet_word_count = make_word_count_dict(allsheet_dict, word_count_dict_All)
+
 #print 'allsheet dict: '
 #print allsheet_dict
+
+
+
+#print ezsheet_dict
+#for value in allsheet_dict['Pronoun']:
+#    print unidecode(value)
+
+
+
+##dictionary cleans working correctly check
+#count = 0
+#for word in allsheet_word_count:
+#    for key in allsheet_dict:
+#        if word == key:
+#            count += 1
+#            
+#print count #gave 12(out of 13 categories)! \
+#(which is what we want because we took out 'Total Words' key)
 
 def find_non_alnum(allsheet_dict):
     '''
@@ -164,41 +194,3 @@ def create_custom_stopword_list(dictionary):
     
 custom_stopwords = create_custom_stopword_list(allsheet_dict)
 #print custom_stopwords
-'''
-#checking for words in dictionary
-count = 0
-for key in allsheet_dict:
-    if 'a lot' not in allsheet_dict[key]:
-        count +=1
-        print count
-'''
-
-#print allsheet_word_count
-#print "\n"
-#print allsheet_dict
-#print "\n"
-
-
-
-ezsheet_dict = extra_clean_dict(ezsheet_dict)
-ezsheet_dict = clean_dict(ezsheet_dict)
-ezsheet_dict = lower_dict(ezsheet_dict)
-#print '\n\n\nezsheet dict: '
-#print ezsheet_dict
-
-
-
-#for value in allsheet_dict['Pronoun']:
-#    print unidecode(value)
-
-
-
-##dictionary cleans working correctly check
-#count = 0
-#for word in allsheet_word_count:
-#    for key in allsheet_dict:
-#        if word == key:
-#            count += 1
-#            
-#print count #gave 12(out of 13 categories)! \
-#(which is what we want because we took out 'Total Words' key)
