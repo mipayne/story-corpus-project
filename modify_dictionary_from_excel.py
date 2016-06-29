@@ -118,8 +118,52 @@ allsheet_dict = extra_clean_dict(allsheet_dict)
 allsheet_word_count = make_word_count_dict(allsheet_dict, word_count_dict_All)
 allsheet_dict = clean_dict(allsheet_dict)         
 allsheet_dict = lower_dict(allsheet_dict)
-print 'allsheet dict: '
-print allsheet_dict
+#print 'allsheet dict: '
+#print allsheet_dict
+
+def find_non_alnum(allsheet_dict):
+    '''
+    finds non_alnum_words and contractions in dictionary
+    '''
+    non_alnum_words = []
+    contraction_list = []
+    for key in allsheet_dict:
+        for word in allsheet_dict[key]:
+            if word.isalnum() == False:
+                non_alnum_words.append(word)
+                if "'" in word:
+                    contraction_list.append(word)
+                    
+    non_alnum_words = set(non_alnum_words)                
+    contraction_list = set(contraction_list) 
+    
+    return (non_alnum_words, contraction_list)
+
+non_alnum_words, contraction_list = find_non_alnum(allsheet_dict)
+#print non_alnum_words
+#print contraction_list
+
+def create_custom_stopword_list(dictionary):
+    '''
+    creat custom_stopwords
+    '''
+    from nltk.corpus import stopwords
+    s = stopwords.words('english')
+    y= []
+    removed_stopwords = []
+    for word in s: 
+        y.append(unidecode(word))  
+    s = y[:]
+    for key in dictionary:
+        for word in dictionary[key]:
+            if word in s:
+                removed_stopwords.append(word)
+                s.remove(word)
+
+    return s
+    
+custom_stopwords = create_custom_stopword_list(allsheet_dict)
+#print custom_stopwords
 '''
 #checking for words in dictionary
 count = 0
@@ -139,8 +183,8 @@ for key in allsheet_dict:
 ezsheet_dict = extra_clean_dict(ezsheet_dict)
 ezsheet_dict = clean_dict(ezsheet_dict)
 ezsheet_dict = lower_dict(ezsheet_dict)
-print '\n\n\nezsheet dict: '
-print ezsheet_dict
+#print '\n\n\nezsheet dict: '
+#print ezsheet_dict
 
 
 
