@@ -9,6 +9,7 @@ import nltk
 from nltk import sent_tokenize, word_tokenize, WordNetLemmatizer
 wordnet_lemmatizer = WordNetLemmatizer()
 from nltk.corpus import wordnet
+from unidecode import unidecode
 
 def get_wordnet_pos(treebank_tag):
 
@@ -77,18 +78,22 @@ def import_txt():
             #makes sure words with no equivalent wordnet pos_tag still get lemmatized
             if pos_tag == '':
                 lem_word = wordnet_lemmatizer.lemmatize(word)
+                if type(lem_word) == unicode:
+                    lem_word = unidecode(lem_word)
                 final_words.append(lem_word)
                 #final_words_no_pos.append((lem_word, pos_tag)) #for situation if want to individually check categories
                     #insert code to assign tags according to WordCategories.xlsx (ex: negatives, pronoun)
             #general lemmatization
             else:
                 lem_word = wordnet_lemmatizer.lemmatize(word, pos=pos_tag)
+                if type(lem_word) == unicode:
+                    lem_word = unidecode(lem_word)
                 final_words.append(lem_word)
                 #final_words_new.append((lem_word, pos_tag)) ##for situation if want to individually check categories
-        #book_words.append(final_words)
+        
         book_words[fileName] = final_words
         
-    #print book_words
+
 
     #print len(sent_tokenize_list)
     #print sent_tokenize_list

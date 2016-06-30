@@ -56,13 +56,11 @@ def modify_words1(final_words):
         if i < (len(final_words) - 1):
             current_word = final_words[i]
             next_word = final_words[i+1]
-            print current_word
             if current_word in cntrc_mapping_dict.keys():
                 for key in cntrc_mapping_dict:
                     if current_word == key:
                         for ending in cntrc_mapping_dict[key]:
                             if next_word == ending:
-                                print ending
                                 new_word = current_word + next_word
                                 new_words.append(new_word)
                                 final_words_modify1.remove(current_word)

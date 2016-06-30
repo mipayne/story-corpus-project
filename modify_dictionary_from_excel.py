@@ -175,7 +175,7 @@ non_alnum_words, contraction_list = find_non_alnum(allsheet_dict)
 
 def create_custom_stopword_list(dictionary):
     '''
-    creat custom_stopwords
+    create custom_stopwords
     '''
     from nltk.corpus import stopwords
     s = stopwords.words('english')
