@@ -73,7 +73,7 @@ book_words = importing_txt_files.import_txt()
 #final_words_modify3, removed_words = \
 #    punctuation_modify.modify_words3(final_words_modify2, removed_words)
 
-
+value_dict = {}
 
 for book in book_words:
     final_words = book_words[book]
@@ -111,19 +111,25 @@ for book in book_words:
     tot_word_value, rejected_words, word_key_pair_dict = \
         calculate_book_values(check_hard_list, allsheet_dict, 2, tot_word_value, word_key_pair_dict)
     
-    print '\n'
-    print 'word_key_pair_dict'
-    print word_key_pair_dict
+    #print '\n'
+    #print 'word_key_pair_dict'
+    #print word_key_pair_dict
     
     
-    print 'rejected_words:'
-    print rejected_words
-    print 'tot_word_value:'
-    print tot_word_value
+    #print 'rejected_words:'
+    #print rejected_words
+    
+    for word in rejected_words:
+        tot_word_value += 3
+        
+    #print 'tot_word_value:'
+    #print tot_word_value
     avg_book_difficulty = float(tot_word_value)/word_count
-    print 'average book value:'
-    print avg_book_difficulty
-    break
+    #print 'average book value:'
+    #print avg_book_difficulty
+    value_dict[book] = [tot_word_value, avg_book_difficulty]
+
+print value_dict
 
 '''
 for word in final_words:
