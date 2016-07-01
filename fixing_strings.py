@@ -4,28 +4,8 @@ Created on Tue Jun 28 12:58:12 2016
 
 @author: Madelyn
 """
-
-
 #final_words = ["san", "francisco", "new", "york", "do", "n't", "we", "'ll", 'please', '.', 'it', "'s"]
 
-#for i in len(final_words):
-#    current_word = final_words[i]
-#    word_before = final_words[-i]
-#    if ((current_word[0].isalnum() == False:) and len(current_word) <= 4)
-#        contraction = word_before + current_word
-#        final_words_fixed.append(contraction)
-#        for 
-#        for j in len(final_words):
-#            while j < (i-1) continue:
-#            if final_words[j] == word_before:
-#                rep_count += 1
-#        final_words_fixed.remove(final_words[-i])
-#    elif i == "n't":
-#    else:
-#        final_words_fixed.append(final_words[i])
-
-#keep original pos_tag
-#if modal, check for negate in next value
 
 check_word_list = ["what's", "it's", "i'm", "you've", "you'll", \
     "i've", "he'd", "he's", "we'll", "you're", "i'll", "don't", \
@@ -44,6 +24,13 @@ contraction_list = ["what's", "it's", "i'm", "you've", "you'll",\
 #contraction_list = set(contraction_list)
 
 def modify_words1(final_words):
+    '''
+    concatenates parts of contractions into 1 word, removes halves from\
+    and adds whole contractions to final_words list
+    
+    Inputs: word list
+    Outputs: modified word list
+    '''
     cntrc_mapping_dict = {'you':["'ve","'ll","'re"], 'would':["n't"],\
         'wo':["n't"], 'what':["'s"], 'we':["'ll"], 'was':["n't"], 'let':["'s"],\
         'it': ["'s"], 'is': ["n't"], 'i':["'ve","'m","'ll"], 'he':["'s","'d"],\
@@ -53,9 +40,11 @@ def modify_words1(final_words):
     final_words_modify1 = final_words[:]
                 
     for i in range(len(final_words)):
-        if i < (len(final_words) - 1):
+        if i < (len(final_words) - 1):#avoid index error for last word's next_word
             current_word = final_words[i]
             next_word = final_words[i+1]
+            #searches cntrc_mapping_dict for half of contraction, if ending to\
+            #   that contraction is a value to its key, concatenates them
             if current_word in cntrc_mapping_dict.keys():
                 for key in cntrc_mapping_dict:
                     if current_word == key:
@@ -65,6 +54,7 @@ def modify_words1(final_words):
                                 new_words.append(new_word)
                                 final_words_modify1.remove(current_word)
                                 final_words_modify1.remove(next_word)
+            #allows exception of specific two word proper names
             elif current_word == 'san':
                 if next_word == 'francisco':
                     new_word = current_word + ' ' + next_word
@@ -92,12 +82,3 @@ def modify_words1(final_words):
 #remove duplicates
 #apply custom_stopwords
 #remove punctuation (without removing words with dashes and apostrophes)
- #removed_words = []
-    
-#    for word in final_words:
-#        if word.isalnum() == False: #and len(word) <= 2:#includes "'s", punctuation, 
-#            removed_words.append(word)
-#            final_words.remove(word)
-    
-#    print final_words
-#    print removed_words

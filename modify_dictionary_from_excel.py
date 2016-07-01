@@ -4,16 +4,10 @@ Created on Wed Jun 22 16:00:43 2016
 
 @author: Madelyn
 """
-
-'''
-for key in my_dict:
-    value = my_dict[key]
-    for word in value:
-        print word #accessing the individual words of each header
-'''
 #the process works but takes forever (2.0694129467 seconds)
 ##import time
 ##start_time = time.time()
+
 import pyexcel
 sheet_list = []
 
@@ -27,6 +21,8 @@ for file in sorted(outputfiles):
     
 #print sheet_list
 #print sheet_list[0]
+
+
 def create_dictionary(sheet_list):
     '''
     creates allsheet_dict and ezsheet_dict
@@ -34,8 +30,8 @@ def create_dictionary(sheet_list):
     for i in sheet_list:
         if i == 'All_output.xlsx':
             allsheet = pyexcel.get_sheet(file_name = sheet_list[0], name_columns_by_row=0)
-            allsheet_od = allsheet.to_dict() 
-            allsheet_dict = dict(allsheet_od)
+            allsheet_od = allsheet.to_dict()#makes ordered dict
+            allsheet_dict = dict(allsheet_od)#makes ordinary dict
         elif i == 'Easy_output.xlsx':
             ezsheet = pyexcel.get_sheet(file_name = sheet_list[1], name_columns_by_row=0)
             ezsheet_dict = dict(ezsheet.to_dict())
@@ -45,7 +41,6 @@ def create_dictionary(sheet_list):
  
 
 word_count_dict_All = {}
-word_count_dict_Easy = {}
 
 def make_word_count_dict(my_dict, word_count_dict):
     '''
@@ -56,11 +51,21 @@ def make_word_count_dict(my_dict, word_count_dict):
     '''
     for key in my_dict:
         value = my_dict[key]
-        word_count = int(value[0])
+        word_count = int(value[0])#1st value of each All column is integer
         word_count_dict[key] = word_count
     return word_count_dict
+    
 
-
+def extra_clean_dict(my_dict):
+    '''
+    Removes the word count from the dictionary
+    Is separated from first clean because some 1st values were not numbers
+    '''
+    for key in my_dict.keys():
+        if key == '': #takes care of case where key is blank for some reason
+            del my_dict[key]
+    return my_dict
+    
 
 def clean_dict(my_dict):
     '''
@@ -85,16 +90,6 @@ def clean_dict(my_dict):
 #b = clean_dict(my_dict)
 #print b
 
-def extra_clean_dict(my_dict):
-    '''
-    Removes the word count from the dictionary
-    Is separated from first clean because some 1st values were not numbers
-    '''
-    for key in my_dict.keys():
-        if key == '': #takes care of case where key is blank for some reason
-            del my_dict[key]
-    return my_dict
-    
 
 from unidecode import unidecode
 
@@ -125,31 +120,11 @@ def modify_dictionary(dictionary):
     return dictionary
 
 
-allsheet_dict, ezsheet_dict = create_dictionary(sheet_list)
-allsheet_dict = modify_dictionary(allsheet_dict)
-ezsheet_dict = modify_dictionary(ezsheet_dict)
+#allsheet_dict, ezsheet_dict = create_dictionary(sheet_list)
+#allsheet_dict = modify_dictionary(allsheet_dict)
+#ezsheet_dict = modify_dictionary(ezsheet_dict)
 #allsheet_word_count = make_word_count_dict(allsheet_dict, word_count_dict_All)
 
-#print 'allsheet dict: '
-#print allsheet_dict
-
-
-
-#print ezsheet_dict
-#for value in allsheet_dict['Pronoun']:
-#    print unidecode(value)
-
-
-
-##dictionary cleans working correctly check
-#count = 0
-#for word in allsheet_word_count:
-#    for key in allsheet_dict:
-#        if word == key:
-#            count += 1
-#            
-#print count #gave 12(out of 13 categories)! \
-#(which is what we want because we took out 'Total Words' key)
 
 def find_non_alnum(allsheet_dict):
     '''
@@ -169,7 +144,7 @@ def find_non_alnum(allsheet_dict):
     
     return (non_alnum_words, contraction_list)
 
-non_alnum_words, contraction_list = find_non_alnum(allsheet_dict)
+#non_alnum_words, contraction_list = find_non_alnum(allsheet_dict)
 #print non_alnum_words
 #print contraction_list
 
@@ -180,17 +155,14 @@ def create_custom_stopword_list(dictionary):
     from nltk.corpus import stopwords
     s = stopwords.words('english')
     y= []
-    removed_stopwords = []
     for word in s: 
         y.append(unidecode(word))  
     s = y[:]
     for key in dictionary:
         for word in dictionary[key]:
             if word in s:
-                removed_stopwords.append(word)
                 s.remove(word)
-
     return s
-    
-custom_stopwords = create_custom_stopword_list(allsheet_dict)
+
+#custom_stopwords = create_custom_stopword_list(allsheet_dict)
 #print custom_stopwords

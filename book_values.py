@@ -4,11 +4,6 @@ Created on Thu Jun  9 16:25:07 2016
 
 @author: Madelyn
 """
-#more updated
-#does nothing with rejected words; need to figure out how to handle rejected words
-#allsheet_dict = {'Nouns':[u'clouds', u'face', u'animal', u'rainbow'], 'Animals':[u'goat', u'animal', u'octopus'], 'Negatives':["don't"]}
-
-#final_words = [u'face', u'animal', "don't"]
 
 import modify_dictionary_from_excel
 import importing_txt_files 
@@ -19,12 +14,13 @@ import punctuation_modify
 sheet_list = []
 
 from pyexcel.cookbook import split_a_book
+
 split_a_book('./resources/WordCategories.xlsx', 'output.xlsx')
 import glob
 outputfiles = glob.glob('*_output.xlsx')#splits book to be single sheets
 for file in sorted(outputfiles):
     sheet_list.append(file)#adds each new sheet to a list
- 
+    
 allsheet_dict, ezsheet_dict = modify_dictionary_from_excel.create_dictionary(sheet_list)
 allsheet_dict = modify_dictionary_from_excel.modify_dictionary(allsheet_dict)
 ezsheet_dict = modify_dictionary_from_excel.modify_dictionary(ezsheet_dict)
