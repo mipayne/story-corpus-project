@@ -152,7 +152,7 @@ def create_custom_stopword_list(dictionary):
     s.remove('should')
     more_stopwords = ['one', 'two', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',\
         'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',\
-        'w', 'x', 'y', 'z']
+        'w', 'x', 'y', 'z', 'mom', 'dad']
     s.extend(more_stopwords)
     return s
 
