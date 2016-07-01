@@ -43,18 +43,21 @@ File_functions:
 				-contains comments to begin to preserve
 -fixing_strings (final_words modifier):
 	-contains functions:
-		-modify_words1
+		-string_modify
 			-concatenates halves of contractions into 1 whole word
 			-removes halves from and adds wholes to final_words list-stopwords_modify (final_words modifier):
 	-contains functions:
-		-modify_words2
+		-stopword_modify
 			- removes stopwords from final_words list
 -punctuation_modify (final_words modifier):
 	-contains functions:
-		-modify_words3
+		-punct_modify
 			-removes punctuation from long strings, removes short
 				strings with punctuation
 -numeral_word_modify (final_words modifier):
+	-contains functions:
+		-num_modify
+			-changes arabic numeral strings to their equivalent word
 -word_search:
 	-NOT USED IN CURRENT BOOK_VALUES CODE
 	-contains framework for searching for words from books in All and Easy

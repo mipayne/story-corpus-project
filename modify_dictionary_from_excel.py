@@ -152,6 +152,7 @@ def create_custom_stopword_list(dictionary):
     '''
     create custom_stopwords
     '''
+    
     from nltk.corpus import stopwords
     s = stopwords.words('english')
     y= []
@@ -162,6 +163,11 @@ def create_custom_stopword_list(dictionary):
         for word in dictionary[key]:
             if word in s:
                 s.remove(word)
+    s.remove('should')
+    more_stopwords = ['one', 'two', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',\
+        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',\
+        'w', 'x', 'y', 'z']
+    s.extend(more_stopwords)
     return s
 
 #custom_stopwords = create_custom_stopword_list(allsheet_dict)

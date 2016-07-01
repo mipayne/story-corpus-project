@@ -23,7 +23,7 @@ contraction_list = ["what's", "it's", "i'm", "you've", "you'll",\
 
 #contraction_list = set(contraction_list)
 
-def modify_words1(final_words):
+def string_modify(final_words):
     '''
     concatenates parts of contractions into 1 word, removes halves from\
     and adds whole contractions to final_words list
@@ -37,7 +37,7 @@ def modify_words1(final_words):
         'do':["n't"], 'does':["n't"], 'did':["n't"],'could':["n't"],'ca':["n't"]}
         
     new_words = []
-    final_words_modify1 = final_words[:]
+    final_words_modify = final_words[:]
                 
     for i in range(len(final_words)):
         if i < (len(final_words) - 1):#avoid index error for last word's next_word
@@ -52,33 +52,32 @@ def modify_words1(final_words):
                             if next_word == ending:
                                 new_word = current_word + next_word
                                 new_words.append(new_word)
-                                final_words_modify1.remove(current_word)
-                                final_words_modify1.remove(next_word)
+                                final_words_modify.remove(current_word)
+                                final_words_modify.remove(next_word)
             #allows exception of specific two word proper names
             elif current_word == 'san':
                 if next_word == 'francisco':
                     new_word = current_word + ' ' + next_word
                     new_words.append(new_word)
-                    final_words_modify1.remove(current_word)
-                    final_words_modify1.remove(next_word)
+                    final_words_modify.remove(current_word)
+                    final_words_modify.remove(next_word)
             elif current_word == 'new':
                 if next_word == 'york':
                     new_word = current_word + ' ' + next_word
                     new_words.append(new_word)
-                    final_words_modify1.remove(current_word)
-                    final_words_modify1.remove(next_word)
+                    final_words_modify.remove(current_word)
+                    final_words_modify.remove(next_word)
         else: 
             break
         
     
-    final_words_modify1.extend(new_words)
-    return final_words_modify1
+    final_words_modify.extend(new_words)
+    return final_words_modify
 
-#final_words_modify1 = modify_words1(final_words)
-#print final_words_modify1
+#final_words_modify = string_modify(final_words)
+#print final_words_modify
 
 
-#final_words_modify1
 #remove duplicates
 #apply custom_stopwords
 #remove punctuation (without removing words with dashes and apostrophes)
