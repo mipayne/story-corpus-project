@@ -93,17 +93,18 @@ for book in book_words:
     
     final_words_modify4, removed_words = \
         stopwords_modify.stopword_modify(final_words_modify3, custom_stopwords, removed_words)
-    print 'removed_words:'
-    print removed_words
-    print 'final_words_final'
-    print final_words_modify4
+    #print 'removed_words:'
+#    print removed_words
+#    print 'final_words_final'
+#    print final_words_modify4
 
     rejected_words = [] 
     check_hard_list = []
     
     tot_word_value = 0
-    word_count = len(final_words_modify3)#word_count includes stopwords(value = 0)
+    word_count_with_stopwords = len(final_words_modify3)#word_count includes stopwords(value = 0)
         #maybe make it so it includes only certain stopwords?
+    word_count_no_stopwords = len(final_words_modify4)
    
     word_key_pair_dict = {}    
     
@@ -126,13 +127,24 @@ for book in book_words:
         
     #print 'tot_word_value:'
     #print tot_word_value
-    avg_book_difficulty = float(tot_word_value)/word_count
+    avg_book_diff_with_stopwords = float(tot_word_value)/word_count_with_stopwords
+    avg_book_diff_no_stopwords = float(tot_word_value)/word_count_no_stopwords
     #print 'average book value:'
     #print avg_book_difficulty
-    value_dict[book] = [tot_word_value, avg_book_difficulty]
+    value_dict[book] = (tot_word_value, word_count_no_stopwords, avg_book_diff_no_stopwords, word_count_with_stopwords, avg_book_diff_with_stopwords)
 
-print value_dict
-
+for book in value_dict:
+    book_name = book[34:]
+    print book_name
+    tot_word_value, word_count, avg_book_diff, word_count_stop, avg_book_diff_stop = value_dict[book]
+    print "Total Value: ", tot_word_value
+    print "Total Words (no stopwords): ", word_count
+    print "Total Words (stopwords): ", word_count_stop
+    print "Difficulty (no stopwords): ", avg_book_diff
+    print "Difficulty (stopwords): ", avg_book_diff_stop
+    print "\n"
+#print value_dict
+#print len('./resources/converted/StoryCorpus/')
 
 '''
 NEXT STEP:
