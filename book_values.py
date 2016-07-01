@@ -10,6 +10,7 @@ import importing_txt_files
 import fixing_strings
 import stopwords_modify
 import punctuation_modify
+import numeral_word_modify
 
 sheet_list = []
 
@@ -57,7 +58,7 @@ book_words = importing_txt_files.import_txt()
 
 #final_words = book_words['./resources/converted/StoryCorpus/Troll_Tricks.txt']
 #
-#final_words_modify1 = fixing_strings.modify_words1(final_words)
+#final_words_modify1 = fixing_strings.string_modify(final_words)
 ##insert modifiers here
 #bookset = set(final_words_modify1)
 #book_words['./resources/converted/StoryCorpus/Troll_Tricks.txt'] = list(bookset)
@@ -67,42 +68,47 @@ book_words = importing_txt_files.import_txt()
 #    stopwords_modify.modify_words2(final_words_modify_set, custom_stopwords, removed_words)
 #
 #final_words_modify3, removed_words = \
-#    punctuation_modify.modify_words3(final_words_modify2, removed_words)
+#    punctuation_modify.punct_modify(final_words_modify2, removed_words)
 
 value_dict = {}
 
 for book in book_words:
     final_words = book_words[book]
-    final_words_modify1 = fixing_strings.modify_words1(final_words)
-    print 'final_words_modify1:'
-    print final_words_modify1
-    print '\n'
-    bookset= set(final_words_modify1)
+    final_words_modify1 = fixing_strings.string_modify(final_words)
+    #print 'final_words_modify1:'
+    #print final_words_modify1
+    #print '\n'
+    final_words_modify2 = numeral_word_modify.num_modify(final_words_modify1)
+    #print final_words_modify2
+    bookset= set(final_words_modify2)
     book_words[book] = list(bookset)
     final_words_modify_set = book_words[book]
     
     #insert modifiers here
-    final_words_modify2, removed_words = \
-        stopwords_modify.modify_words2(final_words_modify_set, custom_stopwords, removed_words)
-    #print final_words_modify2
-    
+
     final_words_modify3, removed_words = \
-        punctuation_modify.modify_words3(final_words_modify2, removed_words)
+        punctuation_modify.punct_modify(final_words_modify_set, removed_words)
+    #print 'word_count_words'
+    #print final_words_modify3
+    
+    final_words_modify4, removed_words = \
+        stopwords_modify.stopword_modify(final_words_modify3, custom_stopwords, removed_words)
     print 'removed_words:'
     print removed_words
     print 'final_words_final'
-    print final_words_modify3
+    print final_words_modify4
 
     rejected_words = [] 
     check_hard_list = []
     
     tot_word_value = 0
-    word_count = len(final_words_modify3)
+    word_count = len(final_words_modify3)#word_count includes stopwords(value = 0)
+        #maybe make it so it includes only certain stopwords?
    
     word_key_pair_dict = {}    
     
     tot_word_value, check_hard_list, word_key_pair_dict = \
-        calculate_book_values(final_words_modify3, ezsheet_dict, 1, tot_word_value, word_key_pair_dict)
+        calculate_book_values(final_words_modify4, ezsheet_dict, 1, tot_word_value, word_key_pair_dict)
     
     tot_word_value, rejected_words, word_key_pair_dict = \
         calculate_book_values(check_hard_list, allsheet_dict, 2, tot_word_value, word_key_pair_dict)
@@ -127,11 +133,7 @@ for book in book_words:
 
 print value_dict
 
-'''
-for word in final_words:
-    if word not in rejected_words:
-        print word
-'''
+
 '''
 NEXT STEP:
 consider average difficulty of each group ('Nouns', 'Adjectives')
@@ -142,28 +144,3 @@ scoring books on N/V/Q/S
 for situation where whether the word is a noun/verb/etc. doesn't matter
 all that matters is its difficulty
 '''
-'''
-#book1_words = book1_words.txt
-book1_words = ["happy", "superior", "sit"]
-#list1 = all_list.txt
-list1 = ["happy", "sad", "play", "hit", "fight", "sit"]
-#list2 = easy_list.txt
-list2 = ["sad", "sit"]
-
-tot_word_value = 0
-word_count = 0
-
-for word in book1_words:
-    if word in list1:
-        if word in list2:
-            tot_word_value += 1
-        else:
-            tot_word_value += 2
-    else:
-        tot_word_value += 3
-    word_count += 1
-    print word_count, word, tot_word_value,
-    
-avg_book_difficulty = tot_word_value/word_count
-print avg_book_difficulty
-'''        
