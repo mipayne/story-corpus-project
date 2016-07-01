@@ -4,9 +4,6 @@ Created on Wed Jun 22 16:00:43 2016
 
 @author: Madelyn
 """
-#the process works but takes forever (2.0694129467 seconds)
-##import time
-##start_time = time.time()
 
 import pyexcel
 sheet_list = []
@@ -17,11 +14,6 @@ import glob
 outputfiles = glob.glob('*_output.xlsx')#splits book to be single sheets
 for file in sorted(outputfiles):
     sheet_list.append(file)#adds each new sheet to a list
-##print("--- %s seconds ---" % (time.time() - start_time))
-    
-#print sheet_list
-#print sheet_list[0]
-
 
 def create_dictionary(sheet_list):
     '''
@@ -82,13 +74,7 @@ def clean_dict(my_dict):
         while '' in value:#gets rid of blanks in all value lists
             value.remove('')
     del my_dict['Total Words'] #gets rid of total words key
-        #for word in value:
-           #str(word) #does this do anything?
     return my_dict
-
-
-#b = clean_dict(my_dict)
-#print b
 
 
 from unidecode import unidecode

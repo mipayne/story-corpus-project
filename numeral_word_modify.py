@@ -4,10 +4,7 @@ Created on Thu Jun 30 17:29:12 2016
 
 @author: Madelyn
 """
-#might want to use this modify before we set(list)
-#NOT USED
-#NOT USED
-#NOT USED
+
 #final_words = ['cool', '4']
 #final_words = ['just', 'four', 'fishing', 'go', 'to', 'black', '4', '8', 'them', 'big', 'fat', 'five', 'they', '2', 'now', 'like', 'red', 'twelve', 'right', 'ten', 'fish', 'jump', 'see', 'catching', 'bark', 'what', '3', '7', 'three', 'do', 'water', 'along', 'come', 'on', 'greet', 'swimming', 'one', 'twin', 'another', 'boat', 'little', 'two', 'splash', 'too', '6', 'raft', 'white', 'more', 'catch', '11', '10', '12', 'look', 'can', 'meet', 'and', 'seven', 'brown', 'dog', 'at', 'want', 'in', 'scar', 'dozen', 'dotted', 'no', '1', 'hot', '5', '9', 'puppy', 'beach', 'dive', 'spot', 'eight', 'whale', 'skinny', 'a', 'hungry', 'together', 'the', 'bowwow', 'yaketyyak', 'doggypaddle']
 
