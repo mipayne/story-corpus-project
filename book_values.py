@@ -135,6 +135,9 @@ for book in book_words:
     #print avg_book_difficulty
     value_dict[book] = (tot_word_value, word_count_no_stopwords, avg_book_diff_no_stopwords, word_count_with_stopwords, avg_book_diff_with_stopwords)
 
+
+#clean return values
+
 for book in value_dict:
     book_name = book[34:]
     print book_name
