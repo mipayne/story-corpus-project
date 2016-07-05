@@ -61,30 +61,31 @@ def import_txt():
                 word = tuple_pair[0]
                 pos_tag = tuple_pair[1]
                 #gives correct pos_tag
-                pos_tag = get_wordnet_pos(pos_tag)
+                wordnet_pos = get_wordnet_pos(pos_tag)
                 #makes words lowercase
                 word = word.lower()
-                lem_ready_word_list.append((word, pos_tag))
+                lem_ready_word_list.append((word, wordnet_pos, pos_tag))
         
         #lemmatize
         for tuple_pair in lem_ready_word_list:
             word = tuple_pair[0]
-            pos_tag = tuple_pair[1]
+            wordnet_pos = tuple_pair[1]
+            pos_tag = tuple_pair[2]
             #makes sure words with no equivalent wordnet pos_tag still get lemmatized
-            if pos_tag == '':
+            if wordnet_pos == '':
                 lem_word = wordnet_lemmatizer.lemmatize(word)
                 if type(lem_word) == unicode:
                     lem_word = unidecode(lem_word)
-                final_words.append(lem_word)
-                #final_words_no_pos.append((lem_word, pos_tag)) #for situation if want to individually check categories
+                final_words.append((lem_word, pos_tag))
+                
                     #insert code to assign tags according to WordCategories.xlsx (ex: negatives, pronoun)
             #general lemmatization
             else:
-                lem_word = wordnet_lemmatizer.lemmatize(word, pos=pos_tag)
+                lem_word = wordnet_lemmatizer.lemmatize(word, pos=wordnet_pos)
                 if type(lem_word) == unicode:
                     lem_word = unidecode(lem_word)
-                final_words.append(lem_word)
-                #final_words_new.append((lem_word, pos_tag)) ##for situation if want to individually check categories
+                final_words.append((lem_word, pos_tag))
+                
         
         book_words[fileName] = final_words
         

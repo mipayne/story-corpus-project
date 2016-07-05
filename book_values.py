@@ -71,6 +71,21 @@ book_words = importing_txt_files.import_txt()
 #    punctuation_modify.punct_modify(final_words_modify2, removed_words)
 
 value_dict = {}
+removed_propnouns = []
+    
+for book in book_words:
+    final_words = book_words[book]
+    temp_list = []
+    for word in final_words:
+        print word[1]
+        if word[1] != "NNP":
+            temp_list.append(word[0])
+        else:
+            removed_propnouns.append(word[0])
+    book_words[book] = temp_list
+            
+#print book_words
+print removed_propnouns            
 
 for book in book_words:
     final_words = book_words[book]
