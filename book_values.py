@@ -56,23 +56,10 @@ book_words = importing_txt_files.import_txt()
 
 #print book_words
 
-#final_words = book_words['./resources/converted/StoryCorpus/Troll_Tricks.txt']
-#
-#final_words_modify1 = fixing_strings.string_modify(final_words)
-##insert modifiers here
-#bookset = set(final_words_modify1)
-#book_words['./resources/converted/StoryCorpus/Troll_Tricks.txt'] = list(bookset)
-#final_words_modify_set = book_words['./resources/converted/StoryCorpus/Troll_Tricks.txt']
-##print final_words_modify_set
-#final_words_modify2, removed_words = \
-#    stopwords_modify.modify_words2(final_words_modify_set, custom_stopwords, removed_words)
-#
-#final_words_modify3, removed_words = \
-#    punctuation_modify.punct_modify(final_words_modify2, removed_words)
-
 value_dict = {}
 removed_propnouns = []
-    
+
+#uses pos_tag to identify proper nouns and removes them from word list   
 for book in book_words:
     final_words = book_words[book]
     temp_list = []
