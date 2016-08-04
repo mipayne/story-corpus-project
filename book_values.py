@@ -100,14 +100,16 @@ def calculate_book_values(input_list, dictionary, word_point, tot_word_value, wo
 #            print word_key_pair_dict[word]
             
     return (tot_word_value, remain_list, word_key_pair_dict)
+    
+value_dict = {}
+book_object_list = []
 
 removed_words = []
 
-book_words = importing_txt_files.import_txt()
+book_words = importing_txt_files.import_txt('./resources/converted/StoryCorpus/*.txt')
 
 #print book_words
 
-value_dict = {}
 removed_propnouns = []
 
 #uses pos_tag to identify proper nouns and removes them from word list   
@@ -124,8 +126,7 @@ for book in book_words:
             
 #print book_words
 #print removed_propnouns            
-
-book_object_list = [] 
+ 
 
 for book in book_words:
     final_words = book_words[book]
@@ -138,8 +139,6 @@ for book in book_words:
     bookset= set(final_words_modify2)
     book_words[book] = list(bookset)
     final_words_modify_set = book_words[book]
-    
-    #insert modifiers here
 
     final_words_modify3, removed_words = \
         punctuation_modify.punct_modify(final_words_modify_set, removed_words)
@@ -152,7 +151,7 @@ for book in book_words:
 #    print removed_words
     #print 'final_words_final'
     #print final_words_modify4
-
+'''
     if book == './resources/converted/StoryCorpus/Tap_the_Jam.txt':
         print book[34:]
         print 'word_count_words'
@@ -173,6 +172,7 @@ for book in book_words:
         print final_words_modify3
         print 'final_words_final'
         print final_words_modify4
+'''
     rejected_words = [] 
     check_hard_list = []
     
