@@ -24,13 +24,14 @@ def get_wordnet_pos(treebank_tag):
     else:
         return ''
         
-import glob
+#import glob
 
 def import_txt(multiple_txts):
     '''
     tokenize, pos_tag, and lemmatize words from files in StoryCorpus
     Returns: book_words, a dictionary s.t. book_words[fileName] = list
     '''
+    import glob
     list_of_files = glob.glob(multiple_txts)
     
     final_words = []

@@ -20,6 +20,8 @@ def num_modify(final_words):
     final_words_modify = final_words [:]
     
     for word in final_words:
+        if len(word) > 20:
+            final_words_modify.remove(word)
         key_count = 0
         for key in numeral_word_map:
             key_count += 1

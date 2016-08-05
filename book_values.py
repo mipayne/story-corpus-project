@@ -11,6 +11,7 @@ import fixing_strings
 import stopwords_modify
 import punctuation_modify
 import numeral_word_modify
+import book_tot_modify
 
 sheet_list = []
 
@@ -151,7 +152,7 @@ for book in book_words:
 #    print removed_words
     #print 'final_words_final'
     #print final_words_modify4
-'''
+    '''
     if book == './resources/converted/StoryCorpus/Tap_the_Jam.txt':
         print book[34:]
         print 'word_count_words'
@@ -172,7 +173,8 @@ for book in book_words:
         print final_words_modify3
         print 'final_words_final'
         print final_words_modify4
-'''
+    '''
+    
     rejected_words = [] 
     check_hard_list = []
     
