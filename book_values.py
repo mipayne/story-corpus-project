@@ -11,7 +11,6 @@ import fixing_strings
 import stopwords_modify
 import punctuation_modify
 import numeral_word_modify
-import book_tot_modify
 
 sheet_list = []
 
