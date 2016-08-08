@@ -4,8 +4,9 @@ Created on Wed Jun 22 16:00:43 2016
 
 @author: Madelyn
 """
-
 import pyexcel
+'''
+#for original book_values.py
 sheet_list = []
 
 from pyexcel.cookbook import split_a_book
@@ -14,19 +15,28 @@ import glob
 outputfiles = glob.glob('*_output.xlsx')#splits book to be single sheets
 for file in sorted(outputfiles):
     sheet_list.append(file)#adds each new sheet to a list
+'''
+#for Book_values_w_book_tot_modify
+sheet_list = []
+
+sheet_list.append('./resources/All_output.xlsx')
+sheet_list.append('./resources/Easy_output.xlsx')
 
 def create_dictionary(sheet_list):
     '''
     creates allsheet_dict and ezsheet_dict
     '''
+
     for i in sheet_list:
-        if i == 'All_output.xlsx':
+        if i == './resources/All_output.xlsx':
             allsheet = pyexcel.get_sheet(file_name = sheet_list[0], name_columns_by_row=0)
             allsheet_od = allsheet.to_dict()#makes ordered dict
             allsheet_dict = dict(allsheet_od)#makes ordinary dict
-        elif i == 'Easy_output.xlsx':
+            #print "ALL: ",allsheet_dict
+        elif i == './resources/Easy_output.xlsx':
             ezsheet = pyexcel.get_sheet(file_name = sheet_list[1], name_columns_by_row=0)
             ezsheet_dict = dict(ezsheet.to_dict())
+            #print "EZ: ",ezsheet_dict
         else:
             print "You don't have the appropriate sheet names"
     return (allsheet_dict, ezsheet_dict)
@@ -138,7 +148,6 @@ def create_custom_stopword_list(dictionary):
     '''
     create custom_stopwords
     '''
-    
     from nltk.corpus import stopwords
     s = stopwords.words('english')
     y= []
